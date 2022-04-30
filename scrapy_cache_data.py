@@ -11,6 +11,33 @@ FAVORIATE_MOVIE_FILENAME = "favoriate_movies.json"
 
 
 class imdb_movie:
+    """
+    A class to imdb movie.
+
+    ...
+
+    Attributes
+    ----------
+    name : movie name
+    url : movie url
+    rating : movie rating
+    duration : movie duration
+    short_description : movie short description
+    year : movie year
+    actors : movie actors
+    directors : movie directors
+
+    Methods
+    -------
+    movie_imdb_info():
+        return a dict of imdb movie info
+    movie_basic_info():
+        return a dict of basic movie info
+    quantitative_info():
+        return a dict of quantitative movie info
+    movie_info():
+        return a dict of movie info
+    """
     def __init__(self ,movie_id = None, url = None, name = None, rating = None, duration = None, short_description = None, year = None, genre = None, directors = None, actors = None, ranking = None, review_num = None, top_review_content = None):
         self.url = url
         self.name = name
@@ -59,6 +86,33 @@ class imdb_movie:
 
 
 class douban_movie:
+    """
+    A class of douban movie.
+
+    ...
+
+    Attributes
+    ----------
+    name : movie name
+    url : movie url
+    rating : movie rating
+    duration : movie duration
+    short_description : movie short description
+    year : movie year
+    actors : movie actors
+    directors : movie directors
+
+    Methods
+    -------
+    movie_imdb_info():
+        return a dict of imdb movie info
+    movie_basic_info():
+        return a dict of basic movie info
+    quantitative_info():
+        return a dict of quantitative movie info
+    movie_info():
+        return a dict of movie info
+    """
     def __init__(self, url = None, name = None, movie_id = None, rating = None, duration = None, short_description = None, year = None, genre = None, directors = None, actors = None, ranking = None, rating_num = None):
         self.name = name
         self.rating = rating
@@ -107,7 +161,15 @@ class douban_movie:
 
 
 def build_imdb_list_from_top_250():
+    '''
+    Returns a list of imdb movie.
 
+            Parameters:
+            -----------
+
+            Returns:
+                    A list of imdb movie.
+    '''
     imdb_url = 'http://www.imdb.com/chart/top'
     imdb_req = requests.get(imdb_url)
     imdb_soup = BeautifulSoup(imdb_req.text, 'lxml')
@@ -135,6 +197,15 @@ def build_imdb_list_from_top_250():
 
 
 def build_imdb_list_from_sub_html():
+    '''
+        Returns a list of imdb movie from detailed html.
+
+            Parameters:
+            -----------
+
+            Returns:
+                    A list of imdb movie.
+    '''
     imdb_list = build_imdb_list_from_top_250()
     for index in range(0, len(imdb_list)):
         sub_url = imdb_list[index].url
@@ -161,6 +232,14 @@ def build_imdb_list_from_sub_html():
 
 
 def save_imdb_cache(imdb_list: imdb_movie):
+    '''
+        Save imdb movie list to cache.
+            Parameters:
+                    imdb_list: A list of imdb movie.
+
+            Returns:
+                    None
+    '''
     f = open(IMDB_MOVIE_FILENAME, 'w').close()
     for index in range(0, len(imdb_list)):
         imdb_list[index].movie_info()
@@ -178,6 +257,14 @@ def save_imdb_cache(imdb_list: imdb_movie):
 
 
 def get_douban_url():
+    '''
+        Returns a list of douban movie url.
+            Parameters:
+                    None
+
+            Returns:
+                    url_list: A list of douban movie url.
+    '''
     urls = []
     for i in range(1, 4):
         url = 'https://www.imdb.com/list/ls066077036/?sort=list_order,asc&st_dt=&mode=detail&page={}'.format(i)
@@ -185,6 +272,13 @@ def get_douban_url():
     return urls
 
 def build_douban_top_250():
+    '''
+        Returns a list of douban movie.
+            Parameters:
+                    None
+            returns:
+                    A list of douban movie.
+    '''
     douban_url_list = get_douban_url()
     douban_list_in = []
     for i in range(0, len(douban_url_list)):
@@ -245,6 +339,13 @@ def build_douban_top_250():
 
 
 def save_douban_cache(douban_list: douban_movie):
+    '''
+        Save douban_list to cache
+            Parameters:
+                douban_list: douban_movie
+            return:
+                None
+    '''
     f = open(DOUBAN_MOVIE_FILENAME, 'w').close()
     for index in range(0, len(douban_list)):
         douban_list[index].movie_info()
